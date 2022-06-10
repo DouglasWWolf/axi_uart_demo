@@ -1,0 +1,5 @@
+git add *.cpp *.h makefile
+git add README.md
+git add axi push
+git commit -m "No commit message"
+git push origin main

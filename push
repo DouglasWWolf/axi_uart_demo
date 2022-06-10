@@ -1,0 +1,17 @@
+@echo off
+set project=axi_uart_a7
+git add nexys_a7_100/%project%.gen
+git add nexys_a7_100/%project%.hw
+git add nexys_a7_100/%project%.ip_user_files
+git add nexys_a7_100/%project%.sim
+git add nexys_a7_100/%project%.srcs
+git add nexys_a7_100/%project%.xpr
+git add nexys_a7_100/src
+git add nexys_a7_100/xdc
+
+
+git add python cplusplus README.md push
+
+
+git commit -m "No commit message"
+git push origin main
