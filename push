@@ -5,6 +5,20 @@ git add nexys_a7_100/${project}.ip_user_files
 git add nexys_a7_100/${project}.sim
 git add nexys_a7_100/${project}.srcs
 git add nexys_a7_100/${project}.xpr
+git add nexys_a7_100/src
+git add nexys_a7_100/xdc
+
+export project=axi_uart_a7
+git add xilinx_zcu104/${project}.gen
+git add xilinx_zcu104/${project}.hw
+git add xilinx_zcu104/${project}.ip_user_files
+git add xilinx_zcu104/${project}.sim
+git add xilinx_zcu104/${project}.srcs
+git add xilinx_zcu104/${project}.xpr
+git add xilinx_zcu104/src
+git add xilinx_zcu104/xdc
+
+
 
 git add python cplusplus README.md push
 
