@@ -1,7 +1,7 @@
 # AXI-UART Bridge - Vivado 2021.1
 
- - Folder 'nexys_a7' contains design implemented on Nexys-A7-100T
- - Folder 'xilinx_zcu104' contains design implemented on Xilinx ZCU-104
+ - Folder 'nexys_a7' contains the design implemented on a Nexys-A7-100T
+ - Folder 'xilinx_zcu104' contains the design implemented on a Xilinx ZCU-104
  - Folder 'cplusplus' contains C++ source for host side access
  - Folder 'python' contains Python source for host side access
  
