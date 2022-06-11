@@ -1,5 +1,4 @@
-@echo off
-set project=axi_uart_a7
+export project=axi_uart_a7
 git add nexys_a7_100/$(project).gen
 git add nexys_a7_100/$(project).hw
 git add nexys_a7_100/$(project).ip_user_files
