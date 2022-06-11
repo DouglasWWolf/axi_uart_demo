@@ -88,10 +88,17 @@ def usage():
 
 if __name__ == '__main__':
     import sys
+    import os
+
+    ev = 'axi_uart_device'
+    device=os.getenv(ev)
+    if device == None:
+        print("Missing environment variable '%s'" % ev)
+        quit()
 
     # Create an AXI object and connect it to the serial port
     axi = AXI()
-    axi.init("/dev/ttyUSB3")
+    axi.init(device)
 
     # Ensure that the user gave us enough command line arguments
     if len(sys.argv) < 2:
