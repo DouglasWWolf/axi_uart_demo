@@ -8,7 +8,7 @@ git add nexys_a7_100/${project}.xpr
 git add nexys_a7_100/src
 git add nexys_a7_100/xdc
 
-export project=axi_uart_a7
+export project=axi_uart_zcu104
 git add xilinx_zcu104/${project}.gen
 git add xilinx_zcu104/${project}.hw
 git add xilinx_zcu104/${project}.ip_user_files
