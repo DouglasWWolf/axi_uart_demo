@@ -1,1 +1,1 @@
-# axi_uart_demo
+_uart_demo
