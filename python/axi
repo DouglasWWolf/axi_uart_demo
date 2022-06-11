@@ -1,0 +1,2 @@
+export axi_uart_device=/dev/ttyUSB3
+./axi.py $1 $2 $3 $4

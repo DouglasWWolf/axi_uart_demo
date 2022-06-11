@@ -5,4 +5,6 @@
  - Folder 'cplusplus' contains C++ source for host side access
  - Folder 'python'contains Python source for host side access
  
+ With no other USB serial devices plugged in, the serial port on the Nexys A7 will probably appear as /dev/ttyUSB2
  
+ With no other USB serial devices plugged in, the serial port on the Xilinx ZCU-104 will probably appear as /dev/ttyUSB3
