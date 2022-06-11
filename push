@@ -1,7 +1,11 @@
 @echo off
 set project=axi_uart_a7
-git add nexys_a7_100
-
+git add nexys_a7_100/$(project).gen
+git add nexys_a7_100/$(project).hw
+git add nexys_a7_100/$(project).ip_user_files
+git add nexys_a7_100/$(project).sim
+git add nexys_a7_100/$(project).srcs
+git add nexys_a7_100/$(project).xpr
 
 git add python cplusplus README.md push
 
