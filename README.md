@@ -9,7 +9,7 @@ With no other USB serial devices plugged in, the serial port on the Nexys A7 wil
  
 With no other USB serial devices plugged in, the serial port on the Xilinx ZCU-104 will probably appear as /dev/ttyUSB3
  
-Both the C++ and Python example programs expect to find the name of the serial device in environment variable 'axi_uart_device'. Example:
+Both the C++ and Python example programs expect to find the name of the serial device in environment variable 'axi_uart_device'. Example:  
     export axi_uart_device=/dev/ttyUSB2
 
  
