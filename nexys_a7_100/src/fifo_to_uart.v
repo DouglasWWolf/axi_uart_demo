@@ -17,8 +17,7 @@ module fifo_to_uart#
     parameter integer UART_ADDR       = 32'h4060_0000
 )
 (
-    input BUTTON,
-    
+   
     // User writes to this FIFO to send data out the UART
     (* X_INTERFACE_MODE = "slave" *)
     (* X_INTERFACE_INFO = "xilinx.com:interface:acc_fifo_write:1.0 UART_TX_FIFO WR_DATA" *) input[7:0] XMIT_DATA,
@@ -279,7 +278,7 @@ module fifo_to_uart#
     //-------------------------------------------------------------------------------------------------
     // State machine that manages the TX side of the UART
     //-------------------------------------------------------------------------------------------------
-    reg[4:0] tx_state;   // Should be 1:0
+    reg[1:0] tx_state;   // Should be 1:0
 
     always @(posedge M_AXI_ACLK) begin
         
@@ -309,10 +308,6 @@ module fifo_to_uart#
                     xmit_fifo_read <= 1;
                     tx_state       <= 2;
                 end
-
-                if (BUTTON) begin
-                    tx_state <= 4;
-                end
             end
 
         // Here we are waiting for an AXI write transaction to complete. 
@@ -323,35 +318,7 @@ module fifo_to_uart#
                     amci_write <= 1;
                 end
             end
-
-
-        4:  if (amci_widle) begin
-                amci_waddr <= UART_TX;
-                amci_wdata <= "H";
-                amci_write <= 1;
-                tx_state   <= tx_state + 1;
-            end
-
-        5:  if (amci_widle) begin
-                amci_waddr <= UART_TX;
-                amci_wdata <= "W";
-                amci_write <= 1;
-                tx_state   <= tx_state + 1;
-            end
-        6:  if (amci_widle) begin
-                amci_waddr <= UART_TX;
-                amci_wdata <= 13;
-                amci_write <= 1;
-                tx_state   <= tx_state + 1;
-            end
-        7:  if (amci_widle) begin
-                amci_waddr <= UART_TX;
-                amci_wdata <= 10;
-                amci_write <= 1;
-                tx_state   <= 1;
-            end
-
-        
+       
         endcase
     end
     //-------------------------------------------------------------------------------------------------

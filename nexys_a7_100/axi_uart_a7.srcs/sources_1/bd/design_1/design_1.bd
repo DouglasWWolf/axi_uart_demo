@@ -1,7 +1,7 @@
 {
   "design": {
     "design_info": {
-      "boundary_crc": "0xF70B9330404BB697",
+      "boundary_crc": "0x4C343D2D0631753C",
       "device": "xc7a100tcsg324-1",
       "gen_directory": "../../../../axi_uart_a7.gen/sources_1/bd/design_1",
       "name": "design_1",
@@ -15,11 +15,10 @@
       "system_reset": "",
       "uart_axi_iface": "",
       "axi_interconnect": "",
-      "fifo_to_uart": "",
-      "button": "",
       "axi_uart": "",
       "axi_gpio_inputs": "",
-      "axi_gpio_outputs": ""
+      "axi_gpio_outputs": "",
+      "fifo_to_uart": ""
     },
     "ports": {
       "CLK100MHZ": {
@@ -64,9 +63,6 @@
             "value_src": "default"
           }
         }
-      },
-      "BTNU": {
-        "direction": "I"
       },
       "UART_RXD": {
         "direction": "I"
@@ -544,6 +540,63 @@
           }
         }
       },
+      "axi_uart": {
+        "vlnv": "xilinx.com:ip:axi_uartlite:2.0",
+        "xci_name": "design_1_axi_uartlite_0_0",
+        "xci_path": "ip/design_1_axi_uartlite_0_0/design_1_axi_uartlite_0_0.xci",
+        "inst_hier_path": "axi_uart",
+        "parameters": {
+          "C_BAUDRATE": {
+            "value": "115200"
+          },
+          "UARTLITE_BOARD_INTERFACE": {
+            "value": "Custom"
+          },
+          "USE_BOARD_FLOW": {
+            "value": "true"
+          }
+        }
+      },
+      "axi_gpio_inputs": {
+        "vlnv": "xilinx.com:ip:axi_gpio:2.0",
+        "xci_name": "design_1_axi_gpio_0_0",
+        "xci_path": "ip/design_1_axi_gpio_0_0/design_1_axi_gpio_0_0.xci",
+        "inst_hier_path": "axi_gpio_inputs",
+        "parameters": {
+          "C_GPIO_WIDTH": {
+            "value": "4"
+          },
+          "GPIO_BOARD_INTERFACE": {
+            "value": "Custom"
+          },
+          "USE_BOARD_FLOW": {
+            "value": "true"
+          }
+        }
+      },
+      "axi_gpio_outputs": {
+        "vlnv": "xilinx.com:ip:axi_gpio:2.0",
+        "xci_name": "design_1_axi_gpio_0_1",
+        "xci_path": "ip/design_1_axi_gpio_0_1/design_1_axi_gpio_0_1.xci",
+        "inst_hier_path": "axi_gpio_outputs",
+        "parameters": {
+          "C_ALL_INPUTS": {
+            "value": "0"
+          },
+          "C_ALL_OUTPUTS": {
+            "value": "1"
+          },
+          "C_GPIO_WIDTH": {
+            "value": "4"
+          },
+          "GPIO_BOARD_INTERFACE": {
+            "value": "Custom"
+          },
+          "USE_BOARD_FLOW": {
+            "value": "true"
+          }
+        }
+      },
       "fifo_to_uart": {
         "vlnv": "xilinx.com:module_ref:fifo_to_uart:1.0",
         "xci_name": "design_1_fifo_to_uart_0_0",
@@ -812,9 +865,6 @@
           }
         },
         "ports": {
-          "BUTTON": {
-            "direction": "I"
-          },
           "UART_INT": {
             "direction": "I",
             "parameters": {
@@ -873,100 +923,6 @@
             }
           }
         }
-      },
-      "button": {
-        "vlnv": "xilinx.com:module_ref:button:1.0",
-        "xci_name": "design_1_button_0_0",
-        "xci_path": "ip/design_1_button_0_0/design_1_button_0_0.xci",
-        "inst_hier_path": "button",
-        "reference_info": {
-          "ref_type": "hdl",
-          "ref_name": "button",
-          "boundary_crc": "0x0"
-        },
-        "ports": {
-          "CLK": {
-            "type": "clk",
-            "direction": "I",
-            "parameters": {
-              "FREQ_HZ": {
-                "value": "100000000",
-                "value_src": "ip_prop"
-              },
-              "PHASE": {
-                "value": "0.0",
-                "value_src": "ip_prop"
-              },
-              "CLK_DOMAIN": {
-                "value": "/system_clock_clk_out1",
-                "value_src": "ip_prop"
-              }
-            }
-          },
-          "PIN": {
-            "direction": "I"
-          },
-          "Q": {
-            "direction": "O"
-          }
-        }
-      },
-      "axi_uart": {
-        "vlnv": "xilinx.com:ip:axi_uartlite:2.0",
-        "xci_name": "design_1_axi_uartlite_0_0",
-        "xci_path": "ip/design_1_axi_uartlite_0_0/design_1_axi_uartlite_0_0.xci",
-        "inst_hier_path": "axi_uart",
-        "parameters": {
-          "C_BAUDRATE": {
-            "value": "115200"
-          },
-          "UARTLITE_BOARD_INTERFACE": {
-            "value": "Custom"
-          },
-          "USE_BOARD_FLOW": {
-            "value": "true"
-          }
-        }
-      },
-      "axi_gpio_inputs": {
-        "vlnv": "xilinx.com:ip:axi_gpio:2.0",
-        "xci_name": "design_1_axi_gpio_0_0",
-        "xci_path": "ip/design_1_axi_gpio_0_0/design_1_axi_gpio_0_0.xci",
-        "inst_hier_path": "axi_gpio_inputs",
-        "parameters": {
-          "C_GPIO_WIDTH": {
-            "value": "4"
-          },
-          "GPIO_BOARD_INTERFACE": {
-            "value": "Custom"
-          },
-          "USE_BOARD_FLOW": {
-            "value": "true"
-          }
-        }
-      },
-      "axi_gpio_outputs": {
-        "vlnv": "xilinx.com:ip:axi_gpio:2.0",
-        "xci_name": "design_1_axi_gpio_0_1",
-        "xci_path": "ip/design_1_axi_gpio_0_1/design_1_axi_gpio_0_1.xci",
-        "inst_hier_path": "axi_gpio_outputs",
-        "parameters": {
-          "C_ALL_INPUTS": {
-            "value": "0"
-          },
-          "C_ALL_OUTPUTS": {
-            "value": "1"
-          },
-          "C_GPIO_WIDTH": {
-            "value": "4"
-          },
-          "GPIO_BOARD_INTERFACE": {
-            "value": "Custom"
-          },
-          "USE_BOARD_FLOW": {
-            "value": "true"
-          }
-        }
       }
     },
     "interface_nets": {
@@ -1008,12 +964,6 @@
       }
     },
     "nets": {
-      "PIN_0_1": {
-        "ports": [
-          "BTNU",
-          "button/PIN"
-        ]
-      },
       "axi_gpio_outputs_gpio_io_o": {
         "ports": [
           "axi_gpio_outputs/gpio_io_o",
@@ -1030,12 +980,6 @@
         "ports": [
           "axi_uart/tx",
           "UART_TXD"
-        ]
-      },
-      "button_0_Q": {
-        "ports": [
-          "button/Q",
-          "fifo_to_uart/BUTTON"
         ]
       },
       "clk_in1_0_1": {
@@ -1060,10 +1004,10 @@
         "ports": [
           "system_reset/peripheral_aresetn",
           "uart_axi_iface/M_AXI_ARESETN",
-          "fifo_to_uart/M_AXI_ARESETN",
           "axi_uart/s_axi_aresetn",
           "axi_gpio_inputs/s_axi_aresetn",
-          "axi_gpio_outputs/s_axi_aresetn"
+          "axi_gpio_outputs/s_axi_aresetn",
+          "fifo_to_uart/M_AXI_ARESETN"
         ]
       },
       "rx_0_1": {
@@ -1078,11 +1022,10 @@
           "system_reset/slowest_sync_clk",
           "uart_axi_iface/M_AXI_ACLK",
           "axi_interconnect/aclk",
-          "fifo_to_uart/M_AXI_ACLK",
-          "button/CLK",
           "axi_uart/s_axi_aclk",
           "axi_gpio_inputs/s_axi_aclk",
-          "axi_gpio_outputs/s_axi_aclk"
+          "axi_gpio_outputs/s_axi_aclk",
+          "fifo_to_uart/M_AXI_ACLK"
         ]
       },
       "system_reset_interconnect_aresetn": {
