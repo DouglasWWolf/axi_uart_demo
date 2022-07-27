@@ -1,13 +1,14 @@
 {
   "design": {
     "design_info": {
-      "boundary_crc": "0x4C343D2D0631753C",
+      "boundary_crc": "0xB1450E082C88E73D",
       "device": "xc7a100tcsg324-1",
       "gen_directory": "../../../../axi_uart_a7.gen/sources_1/bd/design_1",
       "name": "design_1",
       "rev_ctrl_bd_flag": "RevCtrlBdOff",
       "synth_flow_mode": "Hierarchical",
-      "tool_version": "2021.1"
+      "tool_version": "2021.1",
+      "validated": "true"
     },
     "design_tree": {
       "system_clock": "",
@@ -19,6 +20,23 @@
       "axi_gpio_outputs": "",
       "fifo_to_uart": ""
     },
+    "interface_ports": {
+      "GPIO_LED": {
+        "mode": "Master",
+        "vlnv_bus_definition": "xilinx.com:interface:gpio:1.0",
+        "vlnv": "xilinx.com:interface:gpio_rtl:1.0"
+      },
+      "GPIO_SW": {
+        "mode": "Master",
+        "vlnv_bus_definition": "xilinx.com:interface:gpio:1.0",
+        "vlnv": "xilinx.com:interface:gpio_rtl:1.0"
+      },
+      "UART": {
+        "mode": "Master",
+        "vlnv_bus_definition": "xilinx.com:interface:uart:1.0",
+        "vlnv": "xilinx.com:interface:uart_rtl:1.0"
+      }
+    },
     "ports": {
       "CLK100MHZ": {
         "type": "clk",
@@ -26,28 +44,42 @@
         "parameters": {
           "ASSOCIATED_RESET": {
             "value": "CPU_RESETN"
+          },
+          "CLK_DOMAIN": {
+            "value": "design_1_CLK100MHZ",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "100000000",
+            "value_src": "default"
+          },
+          "FREQ_TOLERANCE_HZ": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
           }
         }
       },
       "CPU_RESETN": {
         "type": "rst",
-        "direction": "I"
-      },
-      "UART_RXD": {
-        "direction": "I"
-      },
-      "UART_TXD": {
-        "direction": "O"
-      },
-      "GPIO_SW": {
         "direction": "I",
-        "left": "3",
-        "right": "0"
-      },
-      "GPIO_LED": {
-        "direction": "O",
-        "left": "3",
-        "right": "0"
+        "parameters": {
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "POLARITY": {
+            "value": "ACTIVE_LOW",
+            "value_src": "default"
+          }
+        }
       }
     },
     "components": {
@@ -632,6 +664,10 @@
                 "value": "AXI4LITE",
                 "value_src": "constant"
               },
+              "FREQ_HZ": {
+                "value": "100000000",
+                "value_src": "ip_prop"
+              },
               "ID_WIDTH": {
                 "value": "0",
                 "value_src": "constant"
@@ -715,6 +751,14 @@
               "MAX_BURST_LENGTH": {
                 "value": "1",
                 "value_src": "auto"
+              },
+              "PHASE": {
+                "value": "0.0",
+                "value_src": "ip_prop"
+              },
+              "CLK_DOMAIN": {
+                "value": "/system_clock_clk_out1",
+                "value_src": "ip_prop"
               }
             },
             "address_space_ref": "M_AXI",
@@ -823,7 +867,17 @@
         },
         "ports": {
           "UART_INT": {
-            "direction": "I"
+            "direction": "I",
+            "parameters": {
+              "SENSITIVITY": {
+                "value": "EDGE_RISING",
+                "value_src": "const_prop"
+              },
+              "PortWidth": {
+                "value": "1",
+                "value_src": "default_prop"
+              }
+            }
           },
           "M_AXI_ACLK": {
             "type": "clk",
@@ -836,6 +890,18 @@
               "ASSOCIATED_RESET": {
                 "value": "M_AXI_ARESETN",
                 "value_src": "constant"
+              },
+              "FREQ_HZ": {
+                "value": "100000000",
+                "value_src": "ip_prop"
+              },
+              "PHASE": {
+                "value": "0.0",
+                "value_src": "ip_prop"
+              },
+              "CLK_DOMAIN": {
+                "value": "/system_clock_clk_out1",
+                "value_src": "ip_prop"
               }
             }
           },
@@ -861,6 +927,18 @@
       }
     },
     "interface_nets": {
+      "axi_gpio_inputs_GPIO": {
+        "interface_ports": [
+          "GPIO_SW",
+          "axi_gpio_inputs/GPIO"
+        ]
+      },
+      "axi_gpio_outputs_GPIO": {
+        "interface_ports": [
+          "GPIO_LED",
+          "axi_gpio_outputs/GPIO"
+        ]
+      },
       "axi_interconnect_M00_AXI": {
         "interface_ports": [
           "axi_interconnect/M00_AXI",
@@ -871,6 +949,12 @@
         "interface_ports": [
           "axi_gpio_outputs/S_AXI",
           "axi_interconnect/M01_AXI"
+        ]
+      },
+      "axi_uart_UART": {
+        "interface_ports": [
+          "UART",
+          "axi_uart/UART"
         ]
       },
       "fifo_to_uart_M_AXI": {
@@ -899,22 +983,10 @@
       }
     },
     "nets": {
-      "axi_gpio_outputs_gpio_io_o": {
-        "ports": [
-          "axi_gpio_outputs/gpio_io_o",
-          "GPIO_LED"
-        ]
-      },
       "axi_uartlite_0_interrupt": {
         "ports": [
           "axi_uart/interrupt",
           "fifo_to_uart/UART_INT"
-        ]
-      },
-      "axi_uartlite_0_tx": {
-        "ports": [
-          "axi_uart/tx",
-          "UART_TXD"
         ]
       },
       "clk_in1_0_1": {
@@ -929,12 +1001,6 @@
           "system_reset/ext_reset_in"
         ]
       },
-      "gpio_io_i_0_1": {
-        "ports": [
-          "GPIO_SW",
-          "axi_gpio_inputs/gpio_io_i"
-        ]
-      },
       "proc_sys_reset_0_peripheral_aresetn": {
         "ports": [
           "system_reset/peripheral_aresetn",
@@ -943,12 +1009,6 @@
           "axi_gpio_inputs/s_axi_aresetn",
           "axi_gpio_outputs/s_axi_aresetn",
           "fifo_to_uart/M_AXI_ARESETN"
-        ]
-      },
-      "rx_0_1": {
-        "ports": [
-          "UART_RXD",
-          "axi_uart/rx"
         ]
       },
       "system_clock_clk_100mhz": {

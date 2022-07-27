@@ -1,7 +1,7 @@
 //Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2021.1 (lin64) Build 3247384 Thu Jun 10 19:36:07 MDT 2021
-//Date        : Thu Jun 30 15:10:44 2022
+//Date        : Wed Jul 27 10:37:17 2022
 //Host        : simtool5-2 running 64-bit Ubuntu 20.04.4 LTS
 //Command     : generate_target design_1_wrapper.bd
 //Design      : design_1_wrapper
@@ -12,29 +12,29 @@
 module design_1_wrapper
    (CLK100MHZ,
     CPU_RESETN,
-    GPIO_LED,
-    GPIO_SW,
-    UART_RXD,
-    UART_TXD);
+    GPIO_LED_tri_o,
+    GPIO_SW_tri_i,
+    UART_rxd_1,
+    UART_txd_1);
   input CLK100MHZ;
   input CPU_RESETN;
-  output [3:0]GPIO_LED;
-  input [3:0]GPIO_SW;
-  input UART_RXD;
-  output UART_TXD;
+  output [3:0]GPIO_LED_tri_o;
+  input [3:0]GPIO_SW_tri_i;
+  input UART_rxd_1;
+  output UART_txd_1;
 
   wire CLK100MHZ;
   wire CPU_RESETN;
-  wire [3:0]GPIO_LED;
-  wire [3:0]GPIO_SW;
-  wire UART_RXD;
-  wire UART_TXD;
+  wire [3:0]GPIO_LED_tri_o;
+  wire [3:0]GPIO_SW_tri_i;
+  wire UART_rxd_1;
+  wire UART_txd_1;
 
   design_1 design_1_i
        (.CLK100MHZ(CLK100MHZ),
         .CPU_RESETN(CPU_RESETN),
-        .GPIO_LED(GPIO_LED),
-        .GPIO_SW(GPIO_SW),
-        .UART_RXD(UART_RXD),
-        .UART_TXD(UART_TXD));
+        .GPIO_LED_tri_o(GPIO_LED_tri_o),
+        .GPIO_SW_tri_i(GPIO_SW_tri_i),
+        .UART_rxd_1(UART_rxd_1),
+        .UART_txd_1(UART_txd_1));
 endmodule
