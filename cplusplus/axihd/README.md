@@ -1,1 +1,1 @@
-# Perform AXI read/write transactions via serial port
+# Hex-dump utility for AXI address space
