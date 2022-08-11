@@ -71,10 +71,10 @@ int main(int argc, const char** argv)
     while(wordCount--)
     {
         AXI.read(axiAddress, &data);
-        fprintf(fp, "%c", (data >> 24) & 0xFF);
-        fprintf(fp, "%c", (data >> 16) & 0xFF);
+        fprintf(fp, "%c", (data >>  0) & 0xFF);
         fprintf(fp, "%c", (data >>  8) & 0xFF);
-        fprintf(fp, "%c", (data >>  0) & 0xFF); 
+        fprintf(fp, "%c", (data >> 16) & 0xFF);
+        fprintf(fp, "%c", (data >> 24) & 0xFF); 
         fflush(fp);
         axiAddress += 4;        
     }
