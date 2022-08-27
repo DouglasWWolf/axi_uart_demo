@@ -6,33 +6,33 @@
 
 
 # Clock signal
-set_property -dict {PACKAGE_PIN F23 IOSTANDARD LVDS} [get_ports {CLK_125_P}]
-set_property -dict {PACKAGE_PIN E23 IOSTANDARD LVDS} [get_ports {CLK_125_N}]
+set_property -dict {PACKAGE_PIN F23 IOSTANDARD LVDS} [get_ports {CLK_125_clk_p}]
+set_property -dict {PACKAGE_PIN E23 IOSTANDARD LVDS} [get_ports {CLK_125_clk_n}]
 
 # CPU Reset 
 set_property -dict {PACKAGE_PIN M11 IOSTANDARD LVCMOS33} [get_ports {CPU_RESET}]
 
 # General purpose LEDs
-set_property -dict {PACKAGE_PIN D5  IOSTANDARD LVCMOS33} [get_ports {GPIO_LED[0]}]
-set_property -dict {PACKAGE_PIN D6  IOSTANDARD LVCMOS33} [get_ports {GPIO_LED[1]}]
-set_property -dict {PACKAGE_PIN A5  IOSTANDARD LVCMOS33} [get_ports {GPIO_LED[2]}]
-set_property -dict {PACKAGE_PIN B5  IOSTANDARD LVCMOS33} [get_ports {GPIO_LED[3]}]
+set_property -dict {PACKAGE_PIN D5  IOSTANDARD LVCMOS33} [get_ports {GPIO_LED_tri_o[0]}]
+set_property -dict {PACKAGE_PIN D6  IOSTANDARD LVCMOS33} [get_ports {GPIO_LED_tri_o[1]}]
+set_property -dict {PACKAGE_PIN A5  IOSTANDARD LVCMOS33} [get_ports {GPIO_LED_tri_o[2]}]
+set_property -dict {PACKAGE_PIN B5  IOSTANDARD LVCMOS33} [get_ports {GPIO_LED_tri_o[3]}]
 
 # General purpose push-buttons
 #set_property -dict {PACKAGE_PIN B4  IOSTANDARD LVCMOS33}  [get_ports {GPIO_PB0}]
 #set_property -dict {PACKAGE_PIN C4  IOSTANDARD LVCMOS33}  [get_ports {GPIO_PB1}]
-set_property -dict {PACKAGE_PIN B3  IOSTANDARD LVCMOS33}  [get_ports {GPIO_PB2}]
+#set_property -dict {PACKAGE_PIN B3  IOSTANDARD LVCMOS33}  [get_ports {GPIO_PB2}]
 #set_property -dict {PACKAGE_PIN C3  IOSTANDARD LVCMOS33}  [get_ports {GPIO_PB3}]
 
 # General purpose DIP switches (SW13, near the four push-buttons)
-set_property -dict {PACKAGE_PIN E4  IOSTANDARD LVCMOS33}  [get_ports {GPIO_SW[0]}]
-set_property -dict {PACKAGE_PIN D4  IOSTANDARD LVCMOS33}  [get_ports {GPIO_SW[1]}]
-set_property -dict {PACKAGE_PIN F5  IOSTANDARD LVCMOS33}  [get_ports {GPIO_SW[2]}]
-set_property -dict {PACKAGE_PIN F4  IOSTANDARD LVCMOS33}  [get_ports {GPIO_SW[3]}]
+set_property -dict {PACKAGE_PIN E4  IOSTANDARD LVCMOS33}  [get_ports {GPIO_SW_tri_i[0]}]
+set_property -dict {PACKAGE_PIN D4  IOSTANDARD LVCMOS33}  [get_ports {GPIO_SW_tri_i[1]}]
+set_property -dict {PACKAGE_PIN F5  IOSTANDARD LVCMOS33}  [get_ports {GPIO_SW_tri_i[2]}]
+set_property -dict {PACKAGE_PIN F4  IOSTANDARD LVCMOS33}  [get_ports {GPIO_SW_tri_i[3]}]
 
 # UART2, the UART that is connected to the FPGA fabric
-set_property -dict {PACKAGE_PIN A20  IOSTANDARD LVCMOS18}  [get_ports {UART2_RXD}] 
-set_property -dict {PACKAGE_PIN C19  IOSTANDARD LVCMOS18}  [get_ports {UART2_TXD}] 
+set_property -dict {PACKAGE_PIN A20  IOSTANDARD LVCMOS18}  [get_ports {UART_rxd}] 
+set_property -dict {PACKAGE_PIN C19  IOSTANDARD LVCMOS18}  [get_ports {UART_txd}] 
 #set_property -dict {PACKAGE_PIN C18  IOSTANDARD LVCMOS18}  [get_ports {UART2_RTS}] 
 #set_property -dict {PACKAGE_PIN A19  IOSTANDARD LVCMOS18}  [get_ports {UART2_CTS}] 
 

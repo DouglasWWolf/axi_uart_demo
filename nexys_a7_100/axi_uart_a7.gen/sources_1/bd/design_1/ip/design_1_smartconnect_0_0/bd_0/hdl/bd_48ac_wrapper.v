@@ -104,11 +104,11 @@ module bd_48ac_wrapper
   input M01_AXI_wready;
   output [3:0]M01_AXI_wstrb;
   output M01_AXI_wvalid;
-  input [31:0]S00_AXI_araddr;
+  input [63:0]S00_AXI_araddr;
   input [2:0]S00_AXI_arprot;
   output S00_AXI_arready;
   input S00_AXI_arvalid;
-  input [31:0]S00_AXI_awaddr;
+  input [63:0]S00_AXI_awaddr;
   input [2:0]S00_AXI_awprot;
   output S00_AXI_awready;
   input S00_AXI_awvalid;
@@ -164,11 +164,11 @@ module bd_48ac_wrapper
   wire M01_AXI_wready;
   wire [3:0]M01_AXI_wstrb;
   wire M01_AXI_wvalid;
-  wire [31:0]S00_AXI_araddr;
+  wire [63:0]S00_AXI_araddr;
   wire [2:0]S00_AXI_arprot;
   wire S00_AXI_arready;
   wire S00_AXI_arvalid;
-  wire [31:0]S00_AXI_awaddr;
+  wire [63:0]S00_AXI_awaddr;
   wire [2:0]S00_AXI_awprot;
   wire S00_AXI_awready;
   wire S00_AXI_awvalid;

@@ -12,10 +12,10 @@ public:
     bool    connect(std::string device, uint32_t baud = 115200);
 
     // Read an AXI register
-    int     read(uint32_t address, uint32_t* p_result);
+    int     read(uint64_t address, uint32_t* p_result);
 
     // Write a value to an AXI register
-    int     write(uint32_t address, uint32_t data);
+    int     write(uint64_t address, uint32_t data);
 
     // Forces the FPGA's serial buffer into a known good state
     void    reset();

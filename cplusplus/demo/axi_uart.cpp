@@ -4,23 +4,13 @@
 #include <unistd.h>
 #include <string.h>
 #include "axi_uart.h"
+#include "endian_types.h"
 using std::string;
 
-enum {CMD_READ = 1, CMD_WRITE = 2};
+enum {CMD_READ32 = 1, CMD_WRITE32 = 2, CMD_READ64 = 3, CMD_WRITE64 =4 };
 
-//============================================================================
-// write_word() - Writes the specified word, big-endian, at the specified
-//                address
-//============================================================================
-static void write_word(uint32_t word, unsigned char* ptr)
-{
-    ptr[0] = (unsigned char)(word >> 24);
-    ptr[1] = (unsigned char)(word >> 16);
-    ptr[2] = (unsigned char)(word >>  8);
-    ptr[3] = (unsigned char)(word      );
-}
-//============================================================================
-
+// All 1-bit in a 32-bit number
+const uint32_t MASK32 = 0xFFFFFFFF;
 
 //============================================================================
 // connect() - Opens a connection to the serial port
@@ -44,31 +34,45 @@ bool CAxiUart::connect(string device, uint32_t baud)
 //
 // Returns: AXI-read-response value. 0 = OKAY
 //============================================================================
-int CAxiUart::read(uint32_t address, uint32_t* p_result)
+int CAxiUart::read(uint64_t address, uint32_t* p_result)
 {
-    unsigned char command[5];
-    unsigned char response[5];
+    #pragma pack(push, 1)
+    struct {uint8_t cmd; be_uint32_t addr;} cmd32;
+    struct {uint8_t cmd; be_uint32_t addrh; be_uint32_t addrl;} cmd64;
+    struct {uint8_t rsp; be_uint32_t data;} response;
+    #pragma pack(pop)
 
-    // Fill in the first byte of the buffer with a READ command
-    command[0] = CMD_READ;
+    // If this address fits into 32-bits...
+    if ((address & MASK32) == address)
+    {
+        // Fill in the command structure
+        cmd32.cmd  = CMD_READ32;
+        cmd32.addr = address;
 
-    // Fill in the next 4 bytes of the buffer with our AXI address
-    write_word(address, command+1);
+        // Write the AXI-read command to the serial port
+        sp_.write(&cmd32, sizeof cmd32);
+    }
 
-    // Write the AXI-read command to the serial port
-    sp_.write(command, sizeof command);
+    // Otherwise, use the version for 64-bit addresses
+    else
+    {
+        // Fill in the command structure
+        cmd64.cmd   = CMD_READ64;
+        cmd64.addrh = address >> 32;
+        cmd64.addrl = address & MASK32;
+
+        // And write the AXI-read command to the serial port
+        sp_.write(&cmd64, sizeof cmd64);        
+    }
 
     // Fetch the response
-    sp_.read(response, sizeof response);
+    sp_.read(&response, sizeof response);
 
     // Fill in the caller's result field
-    *p_result = response[1] << 24
-              | response[2] << 16
-              | response[3] <<  8
-              | response[4];
+    *p_result = response.data;
 
     // And return the error code to the caller
-    return response[0];
+    return response.rsp;
 }
 //============================================================================
 
@@ -81,28 +85,57 @@ int CAxiUart::read(uint32_t address, uint32_t* p_result)
 //
 // Returns: AXI-write-response value. 0 = OKAY
 //============================================================================
-int CAxiUart::write(uint32_t address, uint32_t data)
+int CAxiUart::write(uint64_t address, uint32_t data)
 {
-    unsigned char command[9];
-    unsigned char response[1];
+    #pragma pack(push, 1)
+    struct
+    {
+        uint8_t     cmd;
+        be_uint32_t addr;
+        be_uint32_t data;
+    } cmd32;
 
-    // Fill in the first byte of the buffer with a WRITE command
-    command[0] = CMD_WRITE;
+    struct
+    {
+        uint8_t     cmd;
+        be_uint32_t addrh;
+        be_uint32_t addrl;
+        be_uint32_t data;
+    } cmd64;
+    #pragma pack(pop)
 
-    // Fill in the next 4 bytes of the buffer with our AXI address
-    write_word(address, command+1);
+    uint8_t response;
 
-    // Fill in the next 4 bytes of the buffer with the data we want to write
-    write_word(data, command+5);
+    // If this address fits into 32-bits...
+    if ((address & MASK32) == address)
+    {
+        // Fill in the command structure
+        cmd32.cmd  = CMD_WRITE32;
+        cmd32.addr = address;
+        cmd32.data = data;
 
-    // Write the AXI command to the serial port
-    sp_.write(command, sizeof command);
+        // Write the AXI-write command to the serial port
+        sp_.write(&cmd32, sizeof cmd32);
+    }
+
+    // Otherwise, use the version for 64-bit addresses
+    else
+    {
+        // Fill in the command structure
+        cmd64.cmd   = CMD_WRITE64;
+        cmd64.addrh = address >> 32;
+        cmd64.addrl = address & MASK32;
+        cmd64.data  = data;
+
+        // And write the AXI-write command to the serial port
+        sp_.write(&cmd64, sizeof cmd64);        
+    }
 
     // Fetch the response
-    sp_.read(response, sizeof response);
+    sp_.read(&response, 1);
 
     // And return the error code to the caller
-    return response[0];
+    return response;
 }
 //============================================================================
 

@@ -8,8 +8,8 @@ import time
 class AXI:
 
     sp         = None
-    CMD_READ  = b'\x01'
-    CMD_WRITE = b'\x02'
+    CMD_READ  = b'\x03'
+    CMD_WRITE = b'\x04'
 
     # -----------------------------------------------------------------------------------------------------
     # init() - Call this first to initialize the serial port
@@ -32,7 +32,7 @@ class AXI:
     #          [1]: the data that was read from the specified AXI register
     # -----------------------------------------------------------------------------------------------------
     def read(self, address):
-        self.sp.write(self.CMD_READ + address.to_bytes(4, 'big'))
+        self.sp.write(self.CMD_READ + address.to_bytes(8, 'big'))
         status = int.from_bytes(self.sp.read(1), 'big')
         data = int.from_bytes(self.sp.read(4), 'big')
         return status, data
@@ -47,7 +47,7 @@ class AXI:
     # Returns: the AXI write-response byte (0 = OKAY)
     # -----------------------------------------------------------------------------------------------------
     def write(self, address, data):
-        self.sp.write(self.CMD_WRITE + address.to_bytes(4, 'big') + data.to_bytes(4, 'big'))
+        self.sp.write(self.CMD_WRITE + address.to_bytes(8, 'big') + data.to_bytes(4, 'big'))
         status = int.from_bytes(self.sp.read(1), 'big')
         return status
     # -----------------------------------------------------------------------------------------------------
