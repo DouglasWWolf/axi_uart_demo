@@ -38,7 +38,7 @@ int CAxiUart::read(uint64_t address, uint32_t* p_result)
 {
     #pragma pack(push, 1)
     struct {uint8_t cmd; be_uint32_t addr;} cmd32;
-    struct {uint8_t cmd; be_uint32_t addrh; be_uint32_t addrl;} cmd64;
+    struct {uint8_t cmd; be_uint64_t addr;} cmd64;
     struct {uint8_t rsp; be_uint32_t data;} response;
     #pragma pack(pop)
 
@@ -57,9 +57,8 @@ int CAxiUart::read(uint64_t address, uint32_t* p_result)
     else
     {
         // Fill in the command structure
-        cmd64.cmd   = CMD_READ64;
-        cmd64.addrh = address >> 32;
-        cmd64.addrl = address & MASK32;
+        cmd64.cmd  = CMD_READ64;
+        cmd64.addr = address;
 
         // And write the AXI-read command to the serial port
         sp_.write(&cmd64, sizeof cmd64);        
@@ -88,20 +87,8 @@ int CAxiUart::read(uint64_t address, uint32_t* p_result)
 int CAxiUart::write(uint64_t address, uint32_t data)
 {
     #pragma pack(push, 1)
-    struct
-    {
-        uint8_t     cmd;
-        be_uint32_t addr;
-        be_uint32_t data;
-    } cmd32;
-
-    struct
-    {
-        uint8_t     cmd;
-        be_uint32_t addrh;
-        be_uint32_t addrl;
-        be_uint32_t data;
-    } cmd64;
+    struct {uint8_t cmd; be_uint32_t addr; be_uint32_t data;} cmd32;
+    struct {uint8_t cmd; be_uint64_t addr; be_uint32_t data;} cmd64;
     #pragma pack(pop)
 
     uint8_t response;
@@ -122,10 +109,9 @@ int CAxiUart::write(uint64_t address, uint32_t data)
     else
     {
         // Fill in the command structure
-        cmd64.cmd   = CMD_WRITE64;
-        cmd64.addrh = address >> 32;
-        cmd64.addrl = address & MASK32;
-        cmd64.data  = data;
+        cmd64.cmd  = CMD_WRITE64;
+        cmd64.addr = address;
+        cmd64.data = data;
 
         // And write the AXI-write command to the serial port
         sp_.write(&cmd64, sizeof cmd64);        
