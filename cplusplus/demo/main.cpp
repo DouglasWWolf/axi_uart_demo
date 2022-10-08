@@ -3,7 +3,6 @@
 using std::string;
 
 CAxiUart AXI;
-const char** ArgV;
 
 //=============================================================================
 // get_device_name() - Returns the name of the serial device, as read from
@@ -34,110 +33,71 @@ string get_device_name()
 //=============================================================================
 void help()
 {
-    printf("usage: axi_uart_demo read <address>\n");
-    printf("       axi_uart_demo write <address> <data>\n");
+    printf("usage: axireg <address>\n");
+    printf("       axireg <address> <data>\n");
     printf("\n<address> and <data> can be in hex or decimal\n");
     exit(0);
 }
 //=============================================================================
 
 
-//=============================================================================
-// axi_read() - Reads the command line and performs an AXI-read transaction
-//=============================================================================
-void axi_read()
-{
-    uint32_t data;
-
-    // Make sure the user gave us an address on the command line
-    if (ArgV[2] == nullptr) help();
-
-    // Fetch the AXI address we want to read from
-    uint32_t address = strtoul(ArgV[2], 0, 0);   
-
-    // Fetch the device name of our serial port
-    string device = get_device_name();
-
-    // Connect to the FPGA via a serial port
-    if (!AXI.connect(device, 115200))
-    {
-        printf("%s not found or no permissions\n", device.c_str());
-        exit(1);        
-    }
-
-    // Perform the AXI transaction
-    int error = AXI.read(address, &data);
-
-    // If an AXI read-error occured, show the error code
-    if (error) printf("Error: read-response = %i\n", error);
-
-    // Otherwise, display the data value we read
-    else printf("%u (0x%08X)\n", data, data);
-}
-//=============================================================================
-
-
-//=============================================================================
-// axi_write() - Reads the command line and performs an AXI-write transaction
-//=============================================================================
-void axi_write()
-{
-    // Make sure the user gave us an address on the command line
-    if (ArgV[2] == nullptr) help();
-
-    // Make sure the user gave us data on the command line
-    if (ArgV[3] == nullptr) help();
-
-    // Fetch the AXI address we want to write to
-    uint32_t address = strtoul(ArgV[2], 0, 0);   
-
-    // Fetch the data we want to write to that address
-    uint32_t data = strtoul(ArgV[3], 0, 0);
-
-    // Fetch the device name of our serial port
-    string device = get_device_name();
-
-    // Connect to the FPGA via a serial port
-    if (!AXI.connect(device, 115200))
-    {
-        printf("%s not found or no permissions\n", device.c_str());
-        exit(1);        
-    }
-
-    // Perform the AXI transaction
-    int error = AXI.write(address, data);
-
-    // If an AXI read-error occured, show the erro code
-    if (error) printf("Error: write-response = %i\n", error);
-}
-//=============================================================================
-
 
 //=============================================================================
 // main() - Command line is:
 // 
-// <program_name> read <address>
+// <program_name> <address>
 //     -- or --
-// <program_name> write <address> <data>
+// <program_name> <address> <data>
 //=============================================================================
 int main(int argc, const char** argv)
 {
-    // Save a global version of argv
-    ArgV = argv;
+    int error;
+    uint32_t data;
 
-    // If there's no command on the command line, show help
-    if (argv[1] == nullptr) help();
+    // If we have the wrong number of arguments, display help and exit
+    if (argc < 2 || argc > 3) help();
 
-    // The first command line argument is a command name
-    string cmd = argv[1];
+    // Fetch the AXI address we want to read or write
+    uint64_t address = strtoull(argv[1], 0, 0);   
+    
+    // If we're going to write a data value, fetch it
+    if (argc == 3) data = strtoul(argv[2], 0, 0);
 
-    // Perform the requested command
-    if      (cmd == "read")  axi_read();
-    else if (cmd == "write") axi_write();
-    else                     help();
+    // Fetch the device name of our serial port
+    string device = get_device_name();
+
+    // Connect to the FPGA via a serial port
+    if (!AXI.connect(device, 115200))
+    {
+        printf("%s not found or no permissions\n", device.c_str());
+        exit(1);        
+    }
+
+    // If the user wants to perform an AXI read...
+    if (argc == 2)
+    {
+        // Perform an AXI read
+        error = AXI.read(address, &data);
+
+        // If an AXI read-error occured, show the error code
+        if (error) printf("Error: read-response = %i\n", error);
+
+        // Otherwise, display the data value we read
+        else printf("%u (0x%08X)\n", data, data);
+    }
+
+    // Otherwise, the user wants to perform an AXI write.
+    else
+    {
+        // Perform the AXI write
+        error = AXI.write(address, data);
+
+        // If an AXI write-error occured, show the error code
+        if (error) printf("Error: write-response = %i\n", error);
+    }
  
-    // Tell the OS that all is well
-    return 0;
+    // Tell the OS whether or not this worked
+    return error;
 }
 //=============================================================================
 
