@@ -1,4 +1,3 @@
-
 # AXI-UART Bridge - Vivado 2021.1
 
  - Folder 'nexys_a7' contains the design implemented on a Nexys-A7-100T
